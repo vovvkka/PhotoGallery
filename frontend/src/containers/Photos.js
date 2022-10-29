@@ -4,6 +4,7 @@ import {getPhotos} from "../store/actions/photosActions";
 import {Box, CardMedia, Grid, Modal} from "@mui/material";
 import PhotoItem from "../components/PhotoItem/PhotoItem";
 import {apiUrl} from "../config";
+import Spinner from "../components/UI/Spinner/Spinner";
 
 const style = {
     position: 'absolute',
@@ -18,6 +19,7 @@ const style = {
 const Photos = () => {
     const dispatch = useDispatch();
     const photos = useSelector(state => state.photos.photos);
+    const loading = useSelector(state => state.photos.fetchLoading);
 
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
@@ -33,6 +35,7 @@ const Photos = () => {
 
     return (
         <>
+            <Spinner show={loading}/>
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}

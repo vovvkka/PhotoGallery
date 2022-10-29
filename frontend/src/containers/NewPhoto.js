@@ -4,10 +4,12 @@ import FormElement from "../components/UI/Form/FormElement";
 import FileInput from "../components/UI/Form/FileInput";
 import {useDispatch, useSelector} from "react-redux";
 import {clearPhotoErrors, newPhoto} from "../store/actions/photosActions";
+import Spinner from "../components/UI/Spinner/Spinner";
 
 
 const NewPhoto = () => {
     const dispatch = useDispatch();
+    const loading = useSelector(state => state.photos.addPhotoLoading);
     const error = useSelector(state => state.photos.addPhotoError);
     const [photoData, setPhotoData] = useState({
         title: '',
@@ -53,42 +55,46 @@ const NewPhoto = () => {
     };
 
     return (
-        <Container maxWidth="sm">
-            <form onSubmit={submitFormHandler}>
-                <Typography variant='h5' paddingY='20px'>
-                    Add Cocktail
-                </Typography>
+        <>
+            <Spinner show={loading}/>
 
-                <Grid container direction='column' rowSpacing={2}>
-                    <Grid item>
-                        <FormElement
-                            required={true}
-                            onChange={inputChangeHandler}
-                            name='title'
-                            label='Title'
-                            value={photoData.title}
-                            error={getFieldError('title')}
-                        />
-                    </Grid>
+            <Container maxWidth="sm">
+                <form onSubmit={submitFormHandler}>
+                    <Typography variant='h5' paddingY='20px'>
+                        Add Cocktail
+                    </Typography>
 
-                    <Grid item>
-                        <FileInput
-                            required={true}
-                            name='image'
-                            label='Photo'
-                            onChange={fileChangeHandler}
-                            error={getFieldError('image')}
-                        />
-                    </Grid>
+                    <Grid container direction='column' rowSpacing={2}>
+                        <Grid item>
+                            <FormElement
+                                required={true}
+                                onChange={inputChangeHandler}
+                                name='title'
+                                label='Title'
+                                value={photoData.title}
+                                error={getFieldError('title')}
+                            />
+                        </Grid>
 
-                    <Grid item>
-                        <Button type="submit" variant="contained" sx={{background: '#212121 !important'}}>
-                            Add Photo
-                        </Button>
+                        <Grid item>
+                            <FileInput
+                                required={true}
+                                name='image'
+                                label='Photo'
+                                onChange={fileChangeHandler}
+                                error={getFieldError('image')}
+                            />
+                        </Grid>
+
+                        <Grid item>
+                            <Button type="submit" variant="contained" sx={{background: '#212121 !important'}}>
+                                Add Photo
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </form>
-        </Container>
+                </form>
+            </Container>
+        </>
     );
 };
 

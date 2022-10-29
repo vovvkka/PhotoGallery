@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getPrivatePhoto} from "../store/actions/photosActions";
 import {Box, CardActionArea, CardMedia, Container, Modal, Typography} from "@mui/material";
 import {apiUrl} from "../config";
+import Spinner from "../components/UI/Spinner/Spinner";
 
 const style = {
     position: 'absolute',
@@ -17,6 +18,7 @@ const style = {
 const PrivatePhoto = ({location}) => {
     const dispatch = useDispatch();
     const photo = useSelector(state => state.photos.privatePhoto);
+    const loading = useSelector(state => state.photos.fetchLoading);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -25,6 +27,7 @@ const PrivatePhoto = ({location}) => {
 
     return (
         <>
+            <Spinner show={loading}/>
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}

@@ -7,6 +7,7 @@ import {apiUrl} from "../config";
 import PhotoItem from "../components/PhotoItem/PhotoItem";
 import {getUser} from "../store/actions/usersActions";
 import {addNotification} from "../store/actions/notifierActions";
+import Spinner from "../components/UI/Spinner/Spinner";
 
 const style = {
     position: 'absolute',
@@ -24,6 +25,7 @@ const UserPhotos = ({match}) => {
     const user = useSelector(state => state.users.user);
     const galleryUser = useSelector(state => state.users.selectedGalleryUser);
     const token = useSelector(state => state.photos.token);
+    const loading = useSelector(state => state.photos.photos.fetchLoading);
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
 
@@ -50,6 +52,8 @@ const UserPhotos = ({match}) => {
 
     return galleryUser && (
         <>
+            <Spinner show={loading}/>
+
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}

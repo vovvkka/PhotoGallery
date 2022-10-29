@@ -4,6 +4,7 @@ import {Box, CardMedia, Grid, Modal} from "@mui/material";
 import {apiUrl} from "../config";
 import PhotoItem from "../components/PhotoItem/PhotoItem";
 import {deletePhotoAdmin, getPhotosAdmin, publishPhotoAdmin} from "../store/actions/adminsActions";
+import Spinner from "../components/UI/Spinner/Spinner";
 
 const style = {
     position: 'absolute',
@@ -20,6 +21,7 @@ const AdminPanel = () => {
     const dispatch = useDispatch();
     const photos = useSelector(state => state.admins.photos);
     const user = useSelector(state => state.users.user);
+    const loading = useSelector(state => state.admins.fetchLoading);
 
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
@@ -35,6 +37,8 @@ const AdminPanel = () => {
 
     return (
         <>
+            <Spinner show={loading}/>
+
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}
