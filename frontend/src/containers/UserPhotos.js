@@ -39,7 +39,7 @@ const UserPhotos = ({match}) => {
             copy('http://localhost:3000/photos?token=' + token);
             dispatch(addNotification('Link copied!', 'info'));
         }
-    }, [token]);
+    }, [token, dispatch]);
 
     const setOpenModal = path => {
         setOpen(true);

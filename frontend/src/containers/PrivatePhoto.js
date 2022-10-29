@@ -23,7 +23,7 @@ const PrivatePhoto = ({location}) => {
 
     useEffect(() => {
         dispatch(getPrivatePhoto(location.search));
-    }, []);
+    }, [location.search, dispatch]);
 
     return (
         <>
