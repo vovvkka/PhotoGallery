@@ -37,7 +37,7 @@ router.get('/gallery/:id', async (req, res) => {
             return res.send(photos);
         }
 
-        const user = await User.findById(req.params.id);
+        const user = await User.findOne({token});
 
         if (user._id.toString() !== req.params.id) {
             const photos = await Photo.find({publish: true, user: req.params.id}).populate('user', 'displayName');

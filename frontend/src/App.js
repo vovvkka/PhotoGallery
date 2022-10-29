@@ -6,6 +6,7 @@ import Login from "./containers/Login";
 import {useSelector} from "react-redux";
 import NewPhoto from "./containers/NewPhoto";
 import Photos from "./containers/Photos";
+import UserPhotos from "./containers/UserPhotos";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -22,6 +23,8 @@ const App = () => {
                 <Route path="/" exact component={Photos}/>
                 <Route path="/register" exact component={Register}/>
                 <Route path="/login" exact component={Login}/>
+
+                <Route path="/gallery/:id" component={UserPhotos}/>
 
                 <ProtectedRoute
                     isAllowed={user}

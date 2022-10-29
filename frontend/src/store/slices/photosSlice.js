@@ -26,6 +26,18 @@ const photosSlice = createSlice({
             state.fetchLoading = false;
             state.fetchError = error;
         },
+        fetchUserPhotosRequest(state) {
+            state.fetchLoading = true;
+            state.fetchError = null;
+        },
+        fetchUserPhotosSuccess(state, {payload: photos}) {
+            state.fetchLoading = false;
+            state.photos = photos;
+        },
+        fetchUserPhotosFailure(state, {payload: error}) {
+            state.fetchLoading = false;
+            state.fetchError = error;
+        },
         createPhotoRequest(state) {
             state.addPhotoLoading = true;
             state.addPhotoError = null;

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getPhotos} from "../store/actions/photosActions";
-import {Box, CardMedia, Grid, Modal} from "@mui/material";
-import PhotoItem from "../components/PhotoItem/PhotoItem";
+import {getUserPhotos} from "../store/actions/photosActions";
+import {Box, CardMedia, Grid, Modal, Typography} from "@mui/material";
 import {apiUrl} from "../config";
+import PhotoItem from "../components/PhotoItem/PhotoItem";
 
 const style = {
     position: 'absolute',
@@ -15,22 +15,21 @@ const style = {
     p: 4,
 };
 
-const Photos = () => {
+const UserPhotos = ({match}) => {
     const dispatch = useDispatch();
     const photos = useSelector(state => state.photos.photos);
-
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
+
+    useEffect(() => {
+        dispatch(getUserPhotos(match.params.id));
+    }, [dispatch]);
 
     const setOpenModal = path => {
         setOpen(true);
         setPhotoPath(path);
     };
-
-    useEffect(() => {
-        dispatch(getPhotos());
-    }, [dispatch]);
-
+    
     return (
         <>
             <Modal
@@ -50,19 +49,24 @@ const Photos = () => {
             </Modal>
 
             <Grid container>
-                {photos.map(photo => (
-                    <PhotoItem
-                        key={photo._id}
-                        userId={photo.user._id}
-                        title={photo.title}
-                        displayName={photo.user.displayName}
-                        image={photo.image}
-                        onClickPhoto={() => setOpenModal(photo.image)}
-                    />
-                ))}
+                <Typography variant="h3">
+
+                </Typography>
+
+                {photos.map(photo => {
+                    return (
+                        <PhotoItem
+                            key={photo._id}
+                            title={photo.title}
+                            displayName={photo.user.displayName}
+                            image={photo.image}
+                            onClickPhoto={() => setOpenModal(photo.image)}
+                        />
+                    );
+                })}
             </Grid>
         </>
     );
 };
 
-export default Photos;
+export default UserPhotos;

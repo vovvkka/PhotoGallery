@@ -1,10 +1,11 @@
 import React from 'react';
 import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
 import {apiUrl} from "../../config";
+import {Link} from "react-router-dom";
 
-const PhotoItem = ({title, image, displayName, onClickPhoto}) => {
+const PhotoItem = ({userId, title, image, displayName, onClickPhoto}) => {
     return (
-        <Card sx={{maxWidth: 200, marginRight: '30px', marginBottom: '20px'}}>
+        <Card sx={{width: 200, marginRight: '30px', marginBottom: '20px'}}>
             <CardActionArea onClick={onClickPhoto}>
                 <CardMedia
                     component="img"
@@ -15,10 +16,18 @@ const PhotoItem = ({title, image, displayName, onClickPhoto}) => {
             </CardActionArea>
 
             <CardContent>
-                <Typography variant="h6" component="div" textAlign="center">
+                <Typography variant="h6" textAlign="center">
                     {title}
                 </Typography>
-                <Typography variant="h6" color="text.secondary" textAlign="center" fontSize="16px">
+                <Typography
+                    variant="h6"
+                    color="text.secondary"
+                    display="block"
+                    textAlign="center"
+                    component={Link}
+                    to={"/gallery/" + userId}
+                    fontSize="16px"
+                >
                     by {displayName}
                 </Typography>
             </CardContent>

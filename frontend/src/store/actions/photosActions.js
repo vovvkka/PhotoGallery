@@ -14,8 +14,22 @@ export const getPhotos = () => {
         } catch (e) {
             dispatch(fetchPhotosFailure(e));
         }
-    }
-}
+    };
+};
+
+export const getUserPhotos = id => {
+    return async dispatch => {
+        try {
+            dispatch(fetchUserPhotosRequest());
+
+            const response = await axiosApi.get('/photos/gallery/' + id);
+
+            dispatch(fetchUserPhotosSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchUserPhotosFailure(e));
+        }
+    };
+};
 
 export const newPhoto = photoData => {
     return async dispatch => {
@@ -34,13 +48,16 @@ export const newPhoto = photoData => {
                 dispatch(createPhotoRequest({global: 'No internet'}));
             }
         }
-    }
-}
+    };
+};
 
 export const {
     fetchPhotosRequest,
     fetchPhotosSuccess,
     fetchPhotosFailure,
+    fetchUserPhotosRequest,
+    fetchUserPhotosSuccess,
+    fetchUserPhotosFailure,
     createPhotoRequest,
     createPhotoSuccess,
     createPhotoFailure,
