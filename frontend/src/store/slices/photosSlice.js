@@ -4,6 +4,7 @@ const name = 'photos';
 
 export const initialState = {
     photos: [],
+    privatePhoto: null,
     fetchLoading: false,
     fetchError: null,
     addPhotoLoading: false,
@@ -15,6 +16,18 @@ const photosSlice = createSlice({
     name,
     initialState,
     reducers: {
+        fetchPrivatePhotoRequest(state) {
+            state.fetchLoading = true;
+            state.fetchError = null;
+        },
+        fetchPrivatePhotoSuccess(state, {payload: privatePhoto}) {
+            state.fetchLoading = false;
+            state.privatePhoto = privatePhoto;
+        },
+        fetchPrivatePhotoFailure(state, {payload: error}) {
+            state.fetchLoading = false;
+            state.fetchError = error;
+        },
         fetchPhotosRequest(state) {
             state.fetchLoading = true;
             state.fetchError = null;

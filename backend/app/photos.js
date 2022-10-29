@@ -86,8 +86,12 @@ router.post('/private/:id', auth, async (req, res) => {
         return res.status(404).send({message: 'Photo not found!'});
     }
 
+    if (photo.publish) {
+        return res.status(400).send({message: 'Photo is already publish'});
+    }
+
     if (req.user._id.toString() !== photo.user.toString()) {
-        return res.status(403).send({message: 'Ypu have no rights!'});
+        return res.status(403).send({message: 'You have no rights!'});
     }
 
     const token = nanoid();

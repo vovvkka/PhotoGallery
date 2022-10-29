@@ -17,6 +17,21 @@ export const getPhotos = () => {
     };
 };
 
+export const getPrivatePhoto = query => {
+    return async dispatch => {
+        try {
+            dispatch(fetchPrivatePhotoRequest());
+
+            const response = await axiosApi.get('/photos/private' + query);
+
+            dispatch(fetchPrivatePhotoSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchPrivatePhotoFailure(e));
+        }
+    };
+};
+
+
 export const getUserPhotos = id => {
     return async dispatch => {
         try {
@@ -81,6 +96,9 @@ export const deletePhoto = id => {
 };
 
 export const {
+    fetchPrivatePhotoRequest,
+    fetchPrivatePhotoSuccess,
+    fetchPrivatePhotoFailure,
     fetchPhotosRequest,
     fetchPhotosSuccess,
     fetchPhotosFailure,

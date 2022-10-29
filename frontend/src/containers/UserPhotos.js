@@ -78,7 +78,9 @@ const UserPhotos = ({match}) => {
                             title={photo.title}
                             displayName={photo.user.displayName}
                             image={photo.image}
+                            published={photo.publish}
                             withoutLink={true}
+
                             rightsToDelete={user._id === galleryUser._id}
                             rightsToCreateLink={user._id === galleryUser._id}
                             onCreateToken={() => createToken(photo._id)}

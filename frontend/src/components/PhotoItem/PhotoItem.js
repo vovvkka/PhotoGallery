@@ -47,7 +47,7 @@ const PhotoItem = (props) => {
 
                 </Grid>
 
-                {props.rightsToCreateLink &&
+                {(!props.published && props.rightsToCreateLink) &&
                     <Button size="small" sx={{marginTop: '5px'}} onClick={props.onCreateToken}>Create link</Button>
                 }
             </CardContent>
