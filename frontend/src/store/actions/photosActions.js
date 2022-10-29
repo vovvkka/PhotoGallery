@@ -51,6 +51,20 @@ export const newPhoto = photoData => {
     };
 };
 
+export const createPrivateToken = id => {
+    return async dispatch => {
+        try {
+            dispatch(createTokenRequest());
+
+            const response = await axiosApi.post('/photos/private/' + id);
+
+            dispatch(createTokenSuccess(response.data));
+        } catch (e) {
+            dispatch(createTokenFailure(e));
+        }
+    };
+};
+
 export const deletePhoto = id => {
     return async dispatch => {
         try {
@@ -76,6 +90,9 @@ export const {
     createPhotoRequest,
     createPhotoSuccess,
     createPhotoFailure,
+    createTokenRequest,
+    createTokenSuccess,
+    createTokenFailure,
     deletePhotoRequest,
     deletePhotoSuccess,
     deletePhotoFailure,

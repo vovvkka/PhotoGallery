@@ -37,13 +37,19 @@ const PhotoItem = (props) => {
 
                 <Grid item display="flex">
                     {(!props.published && props.role === 'admin') &&
-                        <Button size="small" sx={{marginRight: '5px'}} color="primary" variant="outlined" onClick={props.onPublishPhoto}>Publish</Button>}
+                        <Button size="small" sx={{marginRight: '5px'}} color="primary" variant="outlined"
+                                onClick={props.onPublishPhoto}>Publish</Button>}
 
                     {props.rightsToDelete &&
-                        <Button size="small" variant="outlined" color="error" onClick={props.onDeletePhoto}>Delete</Button>}
+                        <Button size="small" variant="outlined" color="error"
+                                onClick={props.onDeletePhoto}>Delete</Button>}
+
+
                 </Grid>
 
-
+                {props.rightsToCreateLink &&
+                    <Button size="small" sx={{marginTop: '5px'}} onClick={props.onCreateToken}>Create link</Button>
+                }
             </CardContent>
         </Card>
     );

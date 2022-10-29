@@ -19,7 +19,8 @@ const PhotoSchema = new Schema({
     publish: {
         type: Boolean,
         default: false
-    }
+    },
+    token: String
 });
 
 

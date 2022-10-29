@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {deletePhoto, getUserPhotos} from "../store/actions/photosActions";
+import copy from 'copy-to-clipboard'
+import {createPrivateToken, deletePhoto, getUserPhotos} from "../store/actions/photosActions";
 import {Box, CardMedia, Grid, Modal, Typography} from "@mui/material";
 import {apiUrl} from "../config";
 import PhotoItem from "../components/PhotoItem/PhotoItem";
 import {getUser} from "../store/actions/usersActions";
+import {addNotification} from "../store/actions/notifierActions";
 
 const style = {
     position: 'absolute',
@@ -21,17 +23,29 @@ const UserPhotos = ({match}) => {
     const photos = useSelector(state => state.photos.photos);
     const user = useSelector(state => state.users.user);
     const galleryUser = useSelector(state => state.users.selectedGalleryUser);
+    const token = useSelector(state => state.photos.token);
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
 
     useEffect(() => {
         dispatch(getUserPhotos(match.params.id));
         dispatch(getUser(match.params.id));
-    }, [dispatch]);
+    }, [dispatch, match.params.id]);
+
+    useEffect(() => {
+        if (token) {
+            copy('http://localhost:3000/photos?token=' + token);
+            dispatch(addNotification('Link copied!', 'info'));
+        }
+    }, [token]);
 
     const setOpenModal = path => {
         setOpen(true);
         setPhotoPath(path);
+    };
+
+    const createToken = async id => {
+        await dispatch(createPrivateToken(id));
     };
 
     return galleryUser && (
@@ -66,6 +80,8 @@ const UserPhotos = ({match}) => {
                             image={photo.image}
                             withoutLink={true}
                             rightsToDelete={user._id === galleryUser._id}
+                            rightsToCreateLink={user._id === galleryUser._id}
+                            onCreateToken={() => createToken(photo._id)}
                             onClickPhoto={() => setOpenModal(photo.image)}
                             onDeletePhoto={() => dispatch(deletePhoto(photo._id))}
                         />

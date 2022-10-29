@@ -8,6 +8,7 @@ export const initialState = {
     fetchError: null,
     addPhotoLoading: false,
     addPhotoError: null,
+    token: null,
 };
 
 const photosSlice = createSlice({
@@ -58,6 +59,18 @@ const photosSlice = createSlice({
             state.photos = state.photos.filter(photo => photo._id !== id);
         },
         deletePhotoFailure(state, {payload: error}) {
+            state.fetchLoading = false;
+            state.fetchError = error;
+        },
+        createTokenRequest(state) {
+            state.fetchLoading = true;
+            state.fetchError = null;
+        },
+        createTokenSuccess(state, {payload: token}) {
+            state.fetchLoading = false;
+            state.token = token;
+        },
+        createTokenFailure(state, {payload: error}) {
             state.fetchLoading = false;
             state.fetchError = error;
         },

@@ -28,6 +28,16 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/private', async (req, res) => {
+    try {
+        const token = req.query.token;
+        const photo = await Photo.findOne({token});
+        res.send(photo);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
 router.get('/gallery/:id', async (req, res) => {
     try {
         const token = req.get('Authorization');
@@ -66,6 +76,29 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
         res.send(photo);
     } catch (e) {
         res.status(400).send({error: e.errors});
+    }
+});
+
+router.post('/private/:id', auth, async (req, res) => {
+    const photo = await Photo.findById(req.params.id);
+
+    if (!photo) {
+        return res.status(404).send({message: 'Photo not found!'});
+    }
+
+    if (req.user._id.toString() !== photo.user.toString()) {
+        return res.status(403).send({message: 'Ypu have no rights!'});
+    }
+
+    const token = nanoid();
+
+    try {
+        photo.token = token;
+        await photo.save()
+
+        res.send(token);
+    } catch (e) {
+        res.status(500).send(e);
     }
 });
 

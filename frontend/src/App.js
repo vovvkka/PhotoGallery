@@ -8,6 +8,7 @@ import NewPhoto from "./containers/NewPhoto";
 import Photos from "./containers/Photos";
 import UserPhotos from "./containers/UserPhotos";
 import AdminPanel from "./containers/AdminPanel";
+import PrivatePhoto from "./containers/PrivatePhoto";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -25,8 +26,9 @@ const App = () => {
 
                 <Route path="/register" exact component={Register}/>
                 <Route path="/login" exact component={Login}/>
-
                 <Route path="/gallery/:id" component={UserPhotos}/>
+                <Route path="/photos" component={PrivatePhoto}/>
+
                 <ProtectedRoute
                     isAllowed={user}
                     redirectTo="/login"
