@@ -34,8 +34,8 @@ const UserMenu = ({username, avatar}) => {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                <Avatar alt={username} src={avatar ? avatar : ''} sx={{ width: 35, height: 35, marginX: '10px'}}/>
-                Hello, {username}!
+                <Avatar alt={username} src={avatar ? avatar : ''} sx={{width: 35, height: 35, marginX: '10px'}}/>
+                {username}
             </Button>
             <Menu
                 id="basic-menu"
@@ -46,7 +46,8 @@ const UserMenu = ({username, avatar}) => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                {user.role === 'admin' &&  <MenuItem onClick={handleClose} component={Link} to={"/admin-panel" }>Admin panel</MenuItem>}
+                {user.role === 'admin' &&
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin-panel"}>Admin panel</MenuItem>}
                 <MenuItem onClick={handleClose} component={Link} to={"/gallery/" + user._id}>My gallery</MenuItem>
                 <MenuItem onClick={handleClose} component={Link} to="/new-photo">New Photo</MenuItem>
                 <MenuItem onClick={() => dispatch(userLogout())}>Logout</MenuItem>

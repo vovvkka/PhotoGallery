@@ -16,7 +16,7 @@ const PhotoItem = (props) => {
             </CardActionArea>
 
             <CardContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="p" gutterBottom fontSize="16px">
                     {props.title}
                 </Typography>
 
@@ -28,7 +28,8 @@ const PhotoItem = (props) => {
                         display="block"
                         component={Link}
                         to={"/gallery/" + props.userId}
-                        fontSize="16px"
+                        textAlign="center"
+                        fontSize="15px"
                         gutterBottom
                     >
                         by {props.displayName}
