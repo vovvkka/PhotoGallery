@@ -51,6 +51,21 @@ export const newPhoto = photoData => {
     };
 };
 
+export const deletePhoto = id => {
+    return async dispatch => {
+        try {
+            dispatch(deletePhotoRequest());
+
+            await axiosApi.delete('/photos/' + id);
+            dispatch(deletePhotoSuccess(id));
+
+            dispatch(addNotification('Delete successful!', 'success'));
+        } catch (e) {
+            dispatch(deletePhotoFailure(e));
+        }
+    };
+};
+
 export const {
     fetchPhotosRequest,
     fetchPhotosSuccess,
@@ -61,5 +76,8 @@ export const {
     createPhotoRequest,
     createPhotoSuccess,
     createPhotoFailure,
+    deletePhotoRequest,
+    deletePhotoSuccess,
+    deletePhotoFailure,
     clearPhotoErrors
 } = photosSlice.actions;

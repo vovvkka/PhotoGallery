@@ -1,9 +1,9 @@
 import React from 'react';
-import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
+import {Button, Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 
-const PhotoItem = ({userId, title, image, displayName, onClickPhoto, withoutLink}) => {
+const PhotoItem = ({userId, title, image, displayName, onClickPhoto, withoutLink, rightsToDelete, onDeletePhoto}) => {
     return (
         <Card sx={{width: 200, marginRight: '30px', marginBottom: '20px'}}>
             <CardActionArea onClick={onClickPhoto}>
@@ -15,17 +15,17 @@ const PhotoItem = ({userId, title, image, displayName, onClickPhoto, withoutLink
                 />
             </CardActionArea>
 
-            <CardContent>
-                <Typography variant="h6" textAlign="center">
+            <CardContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <Typography variant="h6" gutterBottom>
                     {title}
                 </Typography>
+
                 {
                     !withoutLink &&
                     <Typography
                         variant="h6"
                         color="text.secondary"
                         display="block"
-                        textAlign="center"
                         component={Link}
                         to={"/gallery/" + userId}
                         fontSize="16px"
@@ -33,6 +33,8 @@ const PhotoItem = ({userId, title, image, displayName, onClickPhoto, withoutLink
                         by {displayName}
                     </Typography>
                 }
+
+                {rightsToDelete && <Button size="medium" color="error" onClick={onDeletePhoto}>Delete</Button>}
             </CardContent>
         </Card>
     );

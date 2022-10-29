@@ -69,6 +69,27 @@ router.post('/', [auth, upload.single('image')], async (req, res) => {
     }
 });
 
+router.delete('/:id', auth, async (req, res) => {
+    const photo = await Photo.findById(req.params.id);
+    console.log(photo)
+
+    if (!photo) {
+        return res.status(404).send({error: 'Photo not found!'});
+    }
+
+    if (photo.user.toString() !== req.user._id.toString()) {
+        return res.status(403).send({message: 'You dont have rights!'});
+    }
+
+    try {
+        await Photo.deleteOne({_id: req.params.id});
+
+        res.send('Delete successful!');
+    } catch (e) {
+        res.status(500);
+    }
+});
+
 
 // router.delete('/sessions', async (req, res) => {
 //     const token = req.get('Authorization');

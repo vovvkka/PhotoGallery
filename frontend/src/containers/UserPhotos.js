@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getUserPhotos} from "../store/actions/photosActions";
+import {deletePhoto, getUserPhotos} from "../store/actions/photosActions";
 import {Box, CardMedia, Grid, Modal, Typography} from "@mui/material";
 import {apiUrl} from "../config";
 import PhotoItem from "../components/PhotoItem/PhotoItem";
@@ -19,6 +19,7 @@ const style = {
 const UserPhotos = ({match}) => {
     const dispatch = useDispatch();
     const photos = useSelector(state => state.photos.photos);
+    const user = useSelector(state => state.users.user);
     const galleryUser = useSelector(state => state.users.selectedGalleryUser);
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
@@ -64,7 +65,9 @@ const UserPhotos = ({match}) => {
                             displayName={photo.user.displayName}
                             image={photo.image}
                             withoutLink={true}
+                            rightsToDelete={user._id === galleryUser._id}
                             onClickPhoto={() => setOpenModal(photo.image)}
+                            onDeletePhoto={() => dispatch(deletePhoto(photo._id))}
                         />
                     );
                 })}

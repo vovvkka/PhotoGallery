@@ -49,6 +49,18 @@ const photosSlice = createSlice({
             state.addPhotoLoading = false;
             state.addPhotoError = error;
         },
+        deletePhotoRequest(state) {
+            state.fetchLoading = true;
+            state.fetchError = null;
+        },
+        deletePhotoSuccess(state, {payload: id}) {
+            state.fetchLoading = false;
+            state.photos = state.photos.filter(photo => photo._id !== id);
+        },
+        deletePhotoFailure(state, {payload: error}) {
+            state.fetchLoading = false;
+            state.fetchError = error;
+        },
         clearPhotoErrors(state) {
             state.addPhotoError = null;
         }
