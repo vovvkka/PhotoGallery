@@ -4,6 +4,7 @@ import {getUserPhotos} from "../store/actions/photosActions";
 import {Box, CardMedia, Grid, Modal, Typography} from "@mui/material";
 import {apiUrl} from "../config";
 import PhotoItem from "../components/PhotoItem/PhotoItem";
+import {getUser} from "../store/actions/usersActions";
 
 const style = {
     position: 'absolute',
@@ -18,19 +19,21 @@ const style = {
 const UserPhotos = ({match}) => {
     const dispatch = useDispatch();
     const photos = useSelector(state => state.photos.photos);
+    const galleryUser = useSelector(state => state.users.selectedGalleryUser);
     const [open, setOpen] = useState(false);
     const [photoPath, setPhotoPath] = useState('');
 
     useEffect(() => {
         dispatch(getUserPhotos(match.params.id));
+        dispatch(getUser(match.params.id));
     }, [dispatch]);
 
     const setOpenModal = path => {
         setOpen(true);
         setPhotoPath(path);
     };
-    
-    return (
+
+    return galleryUser && (
         <>
             <Modal
                 open={open}
@@ -48,11 +51,11 @@ const UserPhotos = ({match}) => {
                 </Box>
             </Modal>
 
+            <Typography variant="h3" gutterBottom>
+                <b>{galleryUser?.displayName}'s gallery</b>
+            </Typography>
+
             <Grid container>
-                <Typography variant="h3">
-
-                </Typography>
-
                 {photos.map(photo => {
                     return (
                         <PhotoItem
@@ -60,6 +63,7 @@ const UserPhotos = ({match}) => {
                             title={photo.title}
                             displayName={photo.user.displayName}
                             image={photo.image}
+                            withoutLink={true}
                             onClickPhoto={() => setOpenModal(photo.image)}
                         />
                     );

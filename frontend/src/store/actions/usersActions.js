@@ -3,6 +3,20 @@ import axiosApi from "../../axiosApi";
 import {historyPush} from "./historyActions";
 import {addNotification} from "./notifierActions";
 
+export const getUser = id => {
+    return async dispatch => {
+        try {
+            dispatch(fetchUserRequest());
+
+            const response = await axiosApi.get('/users/' + id);
+
+            dispatch(fetchUserSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchUserFailure(e));
+        }
+    };
+};
+
 export const registerUser = userData => {
     return async dispatch => {
         try {
@@ -84,6 +98,9 @@ export const userLogout = () => {
 }
 
 export const {
+    fetchUserRequest,
+    fetchUserSuccess,
+    fetchUserFailure,
     registerUserRequest,
     registerUserSuccess,
     registerUserFailure,

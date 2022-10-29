@@ -4,6 +4,9 @@ const name = 'users';
 
 export const initialState = {
     user: null,
+    selectedGalleryUser: null,
+    galleryLoading: false,
+    galleryError: null,
     registerLoading: false,
     registerError: null,
     loginLoading: false,
@@ -14,6 +17,18 @@ const usersSLice = createSlice({
     name,
     initialState,
     reducers: {
+        fetchUserRequest(state) {
+            state.galleryLoading = true;
+            state.galleryError = null;
+        },
+        fetchUserSuccess(state, {payload: user}) {
+            state.galleryLoading = false;
+            state.selectedGalleryUser = user;
+        },
+        fetchUserFailure(state,{payload: error}) {
+            state.galleryLoading = false;
+            state.galleryError = error;
+        },
         registerUserRequest(state) {
             state.registerLoading = true;
             state.registerError = null;

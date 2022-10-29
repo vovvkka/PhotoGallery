@@ -3,7 +3,7 @@ import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/mat
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 
-const PhotoItem = ({userId, title, image, displayName, onClickPhoto}) => {
+const PhotoItem = ({userId, title, image, displayName, onClickPhoto, withoutLink}) => {
     return (
         <Card sx={{width: 200, marginRight: '30px', marginBottom: '20px'}}>
             <CardActionArea onClick={onClickPhoto}>
@@ -19,20 +19,21 @@ const PhotoItem = ({userId, title, image, displayName, onClickPhoto}) => {
                 <Typography variant="h6" textAlign="center">
                     {title}
                 </Typography>
-                <Typography
-                    variant="h6"
-                    color="text.secondary"
-                    display="block"
-                    textAlign="center"
-                    component={Link}
-                    to={"/gallery/" + userId}
-                    fontSize="16px"
-                >
-                    by {displayName}
-                </Typography>
+                {
+                    !withoutLink &&
+                    <Typography
+                        variant="h6"
+                        color="text.secondary"
+                        display="block"
+                        textAlign="center"
+                        component={Link}
+                        to={"/gallery/" + userId}
+                        fontSize="16px"
+                    >
+                        by {displayName}
+                    </Typography>
+                }
             </CardContent>
-
-
         </Card>
     );
 };

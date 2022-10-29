@@ -18,6 +18,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
+router.get('/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).send({message: 'User not found'});
+        }
+
+        res.send(user);
+    } catch (e) {
+        res.sendStatus(500);
+    }
+});
+
 router.post('/', upload.single('avatar'), async (req, res) => {
     const {username, password, displayName} = req.body;
     const userData = {username, password, displayName};
