@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const Photo = require("../models/Photo");
 const auth = require("../middleware/auth");
+const User = require("../models/User");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -21,6 +22,29 @@ const upload = multer({storage});
 router.get('/', async (req, res) => {
     try {
         const photos = await Photo.find({publish: true}).populate('user', 'displayName');
+        res.send(photos);
+    } catch (e) {
+        res.sendStatus(500);
+    }
+});
+
+router.get('/gallery/:id', async (req, res) => {
+    try {
+        const token = req.get('Authorization');
+
+        if (!token) {
+            const photos = await Photo.find({publish: true, user: req.params.id}).populate('user', 'displayName');
+            return res.send(photos);
+        }
+
+        const user = await User.findById(req.params.id);
+
+        if (user._id.toString() !== req.params.id) {
+            const photos = await Photo.find({publish: true, user: req.params.id}).populate('user', 'displayName');
+            return res.send(photos);
+        }
+
+        const photos = await Photo.find({user: req.params.id}).populate('user', 'displayName');
         res.send(photos);
     } catch (e) {
         res.sendStatus(500);
