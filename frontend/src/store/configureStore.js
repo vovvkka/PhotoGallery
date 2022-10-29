@@ -4,9 +4,11 @@ import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import {configureStore} from "@reduxjs/toolkit";
 import usersSlice from "./slices/usersSlice";
 import thunk from "redux-thunk";
+import photosSlice from "./slices/photosSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
+    photos: photosSlice.reducer
 });
 
 const persistedState = loadFromLocalStorage();

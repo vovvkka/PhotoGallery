@@ -5,6 +5,7 @@ const {nanoid} = require("nanoid");
 const multer = require("multer");
 const path = require("path");
 const Photo = require("../models/Photo");
+const auth = require("../middleware/auth");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -17,12 +18,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.post('/', auth, upload.single('image'), async (req, res) => {
+router.post('/', [auth, upload.single('image')], async (req, res) => {
     const {title} = req.body;
     const photoData = {title};
 
     if (req.file) {
-        photoData.avatar = `uploads/${req.file.filename}`;
+        photoData.image = `uploads/${req.file.filename}`;
     }
 
     try {

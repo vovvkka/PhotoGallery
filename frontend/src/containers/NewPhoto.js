@@ -1,16 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Container, Grid, Typography} from "@mui/material";
 import FormElement from "../components/UI/Form/FormElement";
 import FileInput from "../components/UI/Form/FileInput";
+import {useDispatch, useSelector} from "react-redux";
+import {clearPhotoErrors, newPhoto} from "../store/actions/photosActions";
 
 
 const NewPhoto = () => {
+    const dispatch = useDispatch();
+    const error = useSelector(state => state.photos.addPhotoError);
     const [photoData, setPhotoData] = useState({
         title: '',
         image: ''
     });
 
-    const inputChangeHandler = (name, value) => {
+    useEffect(() => {
+        return () => {
+            dispatch(clearPhotoErrors());
+        };
+    }, [dispatch]);
+
+    const inputChangeHandler = (e) => {
+        const {name, value} = e.target;
+
         setPhotoData(prev => ({...prev, [name]: value}));
     };
 
@@ -29,12 +41,12 @@ const NewPhoto = () => {
             formData.append(key, photoData[key]);
         });
 
-        // dispatch(registerUser(formData));
+        dispatch(newPhoto(formData));
     };
 
     const getFieldError = fieldName => {
         try {
-            // return error.error[fieldName].message;
+            return error.error[fieldName].message;
         } catch {
             return undefined;
         }
@@ -50,26 +62,29 @@ const NewPhoto = () => {
                 <Grid container direction='column' rowSpacing={2}>
                     <Grid item>
                         <FormElement
+                            required={true}
                             onChange={inputChangeHandler}
                             name='title'
                             label='Title'
                             value={photoData.title}
-                            required={true}
                             error={getFieldError('title')}
                         />
                     </Grid>
 
                     <Grid item>
                         <FileInput
+                            required={true}
                             name='image'
                             label='Photo'
                             onChange={fileChangeHandler}
+                            error={getFieldError('image')}
                         />
                     </Grid>
 
                     <Grid item>
-                        <Button type="submit" variant="contained" sx={{background: '#212121 !important'}}>Add
-                            Photo</Button>
+                        <Button type="submit" variant="contained" sx={{background: '#212121 !important'}}>
+                            Add Photo
+                        </Button>
                     </Grid>
                 </Grid>
             </form>
