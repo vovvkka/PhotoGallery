@@ -28,6 +28,7 @@ const PrivatePhoto = ({location}) => {
     return (
         <>
             <Spinner show={loading}/>
+
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}
@@ -44,19 +45,30 @@ const PrivatePhoto = ({location}) => {
                 </Box>
             </Modal>
 
-            <Container maxWidth="sm">
-                <Typography textAlign="center" variant="h4" gutterBottom>
-                    {photo?.title}
+            {photo ?
+                <Container maxWidth="sm">
+                    <Typography textAlign="center" variant="h4" gutterBottom>
+                        {photo?.title}
+                    </Typography>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            image={apiUrl + '/' + photo?.image}
+                            alt="privatePhoto"
+                            onClick={() => setOpen(true)}
+                        />
+                    </CardActionArea>
+                </Container>
+                :
+                <Typography
+                    sx={{marginTop: '100px'}}
+                    variant="h3"
+                    color="error"
+                    textAlign="center"
+                >
+                    The link is invalid or expired
                 </Typography>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        image={apiUrl + '/' + photo?.image}
-                        alt="privatePhoto"
-                        onClick={() => setOpen(true)}
-                    />
-                </CardActionArea>
-            </Container>
+            }
         </>
     );
 };
