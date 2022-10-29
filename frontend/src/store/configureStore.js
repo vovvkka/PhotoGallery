@@ -5,10 +5,12 @@ import {configureStore} from "@reduxjs/toolkit";
 import usersSlice from "./slices/usersSlice";
 import thunk from "redux-thunk";
 import photosSlice from "./slices/photosSlice";
+import adminsSlice from "./slices/adminsSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
-    photos: photosSlice.reducer
+    photos: photosSlice.reducer,
+    admins: adminsSlice.reducer
 });
 
 const persistedState = loadFromLocalStorage();

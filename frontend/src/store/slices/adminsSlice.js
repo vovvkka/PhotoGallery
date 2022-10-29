@@ -29,8 +29,10 @@ const photosSlice = createSlice({
             state.fetchError = null;
         },
         publishPhotoSuccess(state, {payload: id}) {
+            const idx = state.photos.findIndex(photo => photo._id === id);
             state.fetchLoading = false;
-            state.photos = state.photos.filter(photo => photo._id !== id)
+
+            state.photos[idx] = {...state.photos[idx], publish: true};
         },
         publishPhotoFailure(state, {payload: error}) {
             state.fetchLoading = false;

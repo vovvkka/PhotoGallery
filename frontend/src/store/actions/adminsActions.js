@@ -16,7 +16,7 @@ export const getPhotosAdmin = () => {
     };
 };
 
-export const publishTrack = id => {
+export const publishPhotoAdmin = id => {
     return async dispatch => {
         try {
             dispatch(publishPhotoRequest());

@@ -46,6 +46,8 @@ const UserMenu = ({username, avatar}) => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
+                {user.role === 'admin' &&  <MenuItem onClick={handleClose} component={Link} to={"/admin-panel" }>Admin panel</MenuItem>}
+                <MenuItem onClick={handleClose} component={Link} to={"/gallery/" + user._id}>My gallery</MenuItem>
                 <MenuItem onClick={handleClose} component={Link} to="/new-photo">New Photo</MenuItem>
                 <MenuItem onClick={() => dispatch(userLogout())}>Logout</MenuItem>
             </Menu>

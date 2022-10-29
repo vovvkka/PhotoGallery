@@ -1,40 +1,49 @@
 import React from 'react';
-import {Button, Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
+import {Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 
-const PhotoItem = ({userId, title, image, displayName, onClickPhoto, withoutLink, rightsToDelete, onDeletePhoto}) => {
+const PhotoItem = (props) => {
     return (
-        <Card sx={{width: 200, marginRight: '30px', marginBottom: '20px'}}>
-            <CardActionArea onClick={onClickPhoto}>
+        <Card sx={{width: 220, marginRight: '30px', marginBottom: '20px'}}>
+            <CardActionArea onClick={props.onClickPhoto}>
                 <CardMedia
                     component="img"
                     height="200"
-                    image={apiUrl + '/' + image}
+                    image={apiUrl + '/' + props.image}
                     alt="artist"
                 />
             </CardActionArea>
 
             <CardContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Typography variant="h6" gutterBottom>
-                    {title}
+                    {props.title}
                 </Typography>
 
                 {
-                    !withoutLink &&
+                    !props.withoutLink &&
                     <Typography
                         variant="h6"
                         color="text.secondary"
                         display="block"
                         component={Link}
-                        to={"/gallery/" + userId}
+                        to={"/gallery/" + props.userId}
                         fontSize="16px"
+                        gutterBottom
                     >
-                        by {displayName}
+                        by {props.displayName}
                     </Typography>
                 }
 
-                {rightsToDelete && <Button size="medium" color="error" onClick={onDeletePhoto}>Delete</Button>}
+                <Grid item display="flex">
+                    {(!props.published && props.role === 'admin') &&
+                        <Button size="small" sx={{marginRight: '5px'}} color="primary" variant="outlined" onClick={props.onPublishPhoto}>Publish</Button>}
+
+                    {props.rightsToDelete &&
+                        <Button size="small" variant="outlined" color="error" onClick={props.onDeletePhoto}>Delete</Button>}
+                </Grid>
+
+
             </CardContent>
         </Card>
     );
