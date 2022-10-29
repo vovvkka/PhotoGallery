@@ -37,7 +37,7 @@ const AppToolbar = () => {
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Typography variant="h6">
                                 <Link to="/" className={classes.mainLink}>
-                                    App
+                                    Photo Gallery
                                 </Link>
                             </Typography>
                             <Grid item>
