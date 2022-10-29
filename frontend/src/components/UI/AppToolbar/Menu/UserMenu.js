@@ -3,6 +3,7 @@ import {Avatar, Button, Grid, Menu, MenuItem} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {apiUrl} from "../../../../config";
 import {userLogout} from "../../../../store/actions/usersActions";
+import {Link} from "react-router-dom";
 
 const UserMenu = ({username, avatar}) => {
     const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const UserMenu = ({username, avatar}) => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
+                <MenuItem onClick={handleClose} component={Link} to="/new-photo">New Photo</MenuItem>
                 <MenuItem onClick={() => dispatch(userLogout())}>Logout</MenuItem>
             </Menu>
         </Grid>

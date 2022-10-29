@@ -5,6 +5,7 @@ import Register from "./containers/Register";
 import Login from "./containers/Login";
 import {useSelector} from "react-redux";
 import NewPhoto from "./containers/NewPhoto";
+import Photos from "./containers/Photos";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -18,7 +19,7 @@ const App = () => {
     return (
         <Layout>
             <Switch>
-                <Route path="/" exact/>
+                <Route path="/" exact component={Photos}/>
                 <Route path="/register" exact component={Register}/>
                 <Route path="/login" exact component={Login}/>
 

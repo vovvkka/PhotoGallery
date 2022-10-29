@@ -3,6 +3,19 @@ import axiosApi from "../../axiosApi";
 import {historyPush} from "./historyActions";
 import {addNotification} from "./notifierActions";
 
+export const getPhotos = () => {
+    return async dispatch => {
+        try {
+            dispatch(fetchPhotosRequest());
+
+            const response = await axiosApi.get('/photos');
+
+            dispatch(fetchPhotosSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchPhotosFailure(e));
+        }
+    }
+}
 
 export const newPhoto = photoData => {
     return async dispatch => {
@@ -25,6 +38,9 @@ export const newPhoto = photoData => {
 }
 
 export const {
+    fetchPhotosRequest,
+    fetchPhotosSuccess,
+    fetchPhotosFailure,
     createPhotoRequest,
     createPhotoSuccess,
     createPhotoFailure,

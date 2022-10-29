@@ -18,9 +18,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
+router.get('/', async (req, res) => {
+    try {
+        const photos = await Photo.find({publish: true}).populate('user', 'displayName');
+        res.send(photos);
+    } catch (e) {
+        res.sendStatus(500);
+    }
+});
+
 router.post('/', [auth, upload.single('image')], async (req, res) => {
     const {title} = req.body;
-    const photoData = {title};
+    const photoData = {title, user: req.user._id};
 
     if (req.file) {
         photoData.image = `uploads/${req.file.filename}`;
