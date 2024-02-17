@@ -41,6 +41,7 @@ const App = () => {
                     path="/admin-panel"
                     component={AdminPanel}
                 />
+                
             </Switch>
         </Layout>
     );
